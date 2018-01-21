@@ -24,7 +24,7 @@ class MainActivityTest {
     fun shouldShowInjectedNameInTheActivityWhenReplaceByAMock() {
         startActivity()
 
-        onView(withText("Hello World!")).check(matches(isDisplayed()))
+        onView(withText("Application Name")).check(matches(isDisplayed()))
     }
 
     fun startActivity(args: Bundle = Bundle()): MainActivity {
