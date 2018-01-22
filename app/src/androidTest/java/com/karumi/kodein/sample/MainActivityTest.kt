@@ -24,6 +24,7 @@ import org.mockito.MockitoAnnotations
 class MainActivityTest {
 
     @Mock private lateinit var nameDataSource: NameDataSource
+    @Mock private lateinit var activityNameProvider: ActivityNameProvider
 
     @Rule
     @JvmField
@@ -39,11 +40,19 @@ class MainActivityTest {
     }
 
     @Test
-    fun shouldShowInjectedNameInTheActivityWhenReplaceByAMock() {
+    fun shouldShowInjectedNameProvidedByTheDomainWhenReplaceByAMock() {
         whenever(nameDataSource.getName()).thenReturn("Mock Name")
         startActivity()
 
         onView(withText("Mock Name")).check(matches(isDisplayed()))
+    }
+
+    @Test
+    fun shouldShowInjectedNameInActivityWhenReplaceByAMock() {
+        whenever(nameDataSource.getName()).thenReturn("Mock Activity Scope")
+        startActivity()
+
+        onView(withText("Mock Activity Scope")).check(matches(isDisplayed()))
     }
 
     fun startActivity(args: Bundle = Bundle()): MainActivity {
@@ -54,5 +63,6 @@ class MainActivityTest {
 
     val testDependencies = Module(allowSilentOverride = true) {
         bind<NameDataSource>() with instance(nameDataSource)
+        bind<ActivityNameProvider>() with instance(activityNameProvider)
     }
 }
