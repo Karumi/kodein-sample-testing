@@ -31,5 +31,8 @@ class MainActivity : KodeinAppCompatActivity() {
         bind<MainActivityController>() with provider {
             MainActivityController(instance())
         }
+        bind<ActivityNameProvider>() with provider {
+            ActivityNameProvider()
+        }
     }
 }
