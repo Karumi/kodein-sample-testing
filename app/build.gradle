@@ -12,7 +12,7 @@ android {
     targetSdkVersion 26
     versionCode 1
     versionName "1.0"
-    testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    testInstrumentationRunner "com.karumi.kodein.sample.KotlinAndroidTestRunner"
   }
   buildTypes {
     release {
@@ -36,6 +36,12 @@ dependencies {
   compile 'com.github.salomonbrys.kodein:kodein-conf:4.1.0'
   androidTestCompile 'com.android.support.test:runner:1.0.1'
   androidTestCompile 'com.android.support.test.espresso:espresso-core:3.0.1'
+  androidTestCompile 'org.mockito:mockito-android:2.13.0'
+  androidTestCompile 'org.mockito:mockito-core:2.13.0'
+  androidTestCompile "com.nhaarman:mockito-kotlin:1.5.0"
+  androidTestCompile('com.github.tmurakami:dexopener:0.12.1') {
+    exclude group: 'com.android.support.test', module: 'runner'
+  }
 }
 
 task ktlint(type: JavaExec) {
