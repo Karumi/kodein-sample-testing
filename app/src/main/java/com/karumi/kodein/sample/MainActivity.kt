@@ -11,8 +11,8 @@ import kotlinx.android.synthetic.main.activity_main.tv_name_app_scope
 
 class MainActivity : KodeinAppCompatActivity() {
 
-    private val controller: MainActivityController by injector.instance()
-    private val activityNameProvider: ActivityNameProvider by injector.instance()
+    private val applicationScopeClass: ApplicationScopeClass by injector.instance()
+    private val activityScopeClass: ActivityScopeClass by injector.instance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         applicationContext.asApp().addModule(activityModules)
@@ -23,16 +23,13 @@ class MainActivity : KodeinAppCompatActivity() {
     }
 
     private fun setTextFromController() {
-        tv_name_app_scope.text = controller.getName()
-        tv_name_activity_scope.text = activityNameProvider.getName()
+        tv_name_app_scope.text = applicationScopeClass.getText()
+        tv_name_activity_scope.text = activityScopeClass.getText()
     }
 
-    val activityModules = Module(allowSilentOverride = true) {
-        bind<MainActivityController>() with provider {
-            MainActivityController(instance())
-        }
-        bind<ActivityNameProvider>() with provider {
-            ActivityNameProvider()
+    private val activityModules = Module(allowSilentOverride = true) {
+        bind<ActivityScopeClass>() with provider {
+            ActivityScopeClass()
         }
     }
 }

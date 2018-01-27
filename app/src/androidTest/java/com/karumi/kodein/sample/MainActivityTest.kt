@@ -23,8 +23,8 @@ import org.mockito.MockitoAnnotations
 @RunWith(AndroidJUnit4::class)
 class MainActivityTest {
 
-    @Mock private lateinit var nameDataSource: NameDataSource
-    @Mock private lateinit var activityNameProvider: ActivityNameProvider
+    @Mock private lateinit var applicationScopeClass: ApplicationScopeClass
+    @Mock private lateinit var activityScopeClass: ActivityScopeClass
 
     @Rule
     @JvmField
@@ -41,7 +41,7 @@ class MainActivityTest {
 
     @Test
     fun shouldShowInjectedNameProvidedByTheDomainWhenReplaceByAMock() {
-        whenever(nameDataSource.getName()).thenReturn("Mock Name")
+        whenever(applicationScopeClass.getText()).thenReturn("Mock Name")
         startActivity()
 
         onView(withText("Mock Name")).check(matches(isDisplayed()))
@@ -49,7 +49,7 @@ class MainActivityTest {
 
     @Test
     fun shouldShowInjectedNameInActivityWhenReplaceByAMock() {
-        whenever(nameDataSource.getName()).thenReturn("Mock Activity Scope")
+        whenever(applicationScopeClass.getText()).thenReturn("Mock Activity Scope")
         startActivity()
 
         onView(withText("Mock Activity Scope")).check(matches(isDisplayed()))
@@ -62,7 +62,7 @@ class MainActivityTest {
     }
 
     val testDependencies = Module(allowSilentOverride = true) {
-        bind<NameDataSource>() with instance(nameDataSource)
-        bind<ActivityNameProvider>() with instance(activityNameProvider)
+        bind<ApplicationScopeClass>() with instance(applicationScopeClass)
+        bind<ActivityScopeClass>() with instance(activityScopeClass)
     }
 }

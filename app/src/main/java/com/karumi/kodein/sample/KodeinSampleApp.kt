@@ -6,6 +6,7 @@ import com.github.salomonbrys.kodein.Kodein.Module
 import com.github.salomonbrys.kodein.KodeinAware
 import com.github.salomonbrys.kodein.bind
 import com.github.salomonbrys.kodein.conf.ConfigurableKodein
+import com.github.salomonbrys.kodein.provider
 import com.github.salomonbrys.kodein.singleton
 
 class KodeinSampleApp : Application(), KodeinAware {
@@ -31,8 +32,8 @@ class KodeinSampleApp : Application(), KodeinAware {
 
     private fun appDependencies(): Module {
         return Module(allowSilentOverride = true) {
-            bind<NameDataSource>() with singleton {
-                NameDataSource()
+            bind<ApplicationScopeClass>() with singleton {
+                ApplicationScopeClass()
             }
         }
     }
