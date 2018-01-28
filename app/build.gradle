@@ -12,7 +12,7 @@ android {
     targetSdkVersion 26
     versionCode 1
     versionName "1.0"
-    testInstrumentationRunner "com.karumi.kodein.sample.KotlinAndroidTestRunner"
+    testInstrumentationRunner "com.github.tmurakami.dexopener.DexOpenerAndroidJUnitRunner"
   }
   buildTypes {
     release {
