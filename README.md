@@ -1,21 +1,21 @@
 # Kodein-sample-testing [![Build Status](https://api.travis-ci.org/Karumi/kodein-sample-testing.svg?branch=master)]
 (https://travis-ci.org/Karumi/kodein-sample-testing)
 
-The main goal of this of this repository is written a small example to show how use Kodein to provide different implementations for production code and testing code.
+This repository aims to be a small example of how to use Kodein to provide different implementations for production code and testing code
 
 ##Description
 
-The idea is to use Kodein to have the possibility to replace part of our production code for mocking implementations, with the objective to have control about the test environment.
+The idea is to use Kodein replacing part of our production code using test doubles during the instrumentation tests execution. This allow us to write instrumentation tests easily.
 
 For writing those tests we are going to use a property that Kodein give us, the ability to override dependencies in a graph.
 
-Our first problem is Android does give us the possibility to provide dependencies to our activities using the constructor. Because Activities constructors are not public and we need to use Kodein to replace those dependencies.
+As Android does not give us the possibility to provide dependencies by constructor, we need to use Kodein to replace those dependencies. This is the main issue we fix using "override dependencies" Kodein feature.
 
-In the example, we have a simple Activity, that has two dependencies, one is an Activity dependency, it's really common that we have dependencies that only live in the activity lifecycle, like a Presenter, a controller, or any visual dependency, you can find it in ```ActivityScopeClass.kt```. The other one is an Application scope dependency, a lot of dependencies live more than the Activity, for example, a DataSource, API calls, caches... You can find this example in the class ```ApplicationScopeClass.kt```. For the example, we are going to define this class as a Singleton, only for shows that we can override singletons provision for any kind of mock.
+In this example we can find a simple Activity with two dependencies. The first dependency is just related to the Activity execution context. Having dependencies that only live during the activity lifecycle, like a Presenter, a controller, or any visual dependency is quite common. You can find it in ActivityScopeClass.kt. The second dependency is an Application scope dependency. This dependency lifecycle is linked to the Application lifecycle and not to the Activity lifecycle as the first dependency does. You can find this example in the class ApplicationScopeClass.kt. This class is defined as a Singleton just to show that we can override singletons provision using any type of test dobules.
 
-We wrote a simple test class, that using Espresso check the texts that return both previous classes.
+We wrote a simple test class using Espresso to check if the text shown to the user is the one obtained from the production code dependency or our test double.
 
-You can find it in ```MainActivityTest.kt```, if you check for example one of the tests you can discover how we are using Kodein to override the dependencies.
+You can find it in ```MainActivityTest.kt```. If you check one of the tests you can discover how we are using Kodein to override the dependencies.
 
 ```java
 @Mock private lateinit var applicationScopeClass: ApplicationScopeClass
@@ -29,37 +29,9 @@ You can find it in ```MainActivityTest.kt```, if you check for example one of th
     }
 ```
 
-We are creating a  Mock (we are using Mockito to provide fake implementations, this is not mandatory, you could use your own fake implementations, or using other mocking frameworks). We are replacing the real call to getText() for a mock value called 'Mock Name". We launch the activity and we use Expresso to verify that the mocked test has been displayed on the screen.
-
-The main goal of this of this repository is written a small example to show how use Kodein to provide different implementations for production code and testing code.
-
-##Description
-
-The idea is to use Kodein to have the possibility to replace part of our production code for mocking implementations, with the objective to have control about the test environment.
-
-For writing those tests we are going to use a property that Kodein give us, the ability to override dependencies in a graph.
-
-Our first problem is Android does give us the possibility to provide dependencies to our activities using the constructor. Because Activities constructors are not public and we need to use Kodein to replace those dependencies.
-
-In the example, we have a simple Activity, that has two dependencies, one is an Activity dependency, it's really common that we have dependencies that only live in the activity lifecycle, like a Presenter, a controller, or any visual dependency, you can find it in ```ActivityScopeClass.kt```. The other one is an Application scope dependency, a lot of dependencies live more than the Activity, for example, a DataSource, API calls, caches... You can find this example in the class ```ApplicationScopeClass.kt```. For the example, we are going to define this class as a Singleton, only for shows that we can override singletons provision for any kind of mock.
-
-We wrote a simple test class, that using Espresso check the texts that return both previous classes.
-
-You can find it in ```MainActivityTest.kt```, if you check for example one of the tests you can discover how we are using Kodein to override the dependencies.
-
-```java
-@Mock private lateinit var applicationScopeClass: ApplicationScopeClass
-
-@Test
-    fun shouldShowInjectedNameProvidedByTheDomainWhenReplaceByAMock() {
-        whenever(applicationScopeClass.getText()).thenReturn("Mock Name")
-        startActivity()
-
-        onView(withText("Mock Name")).check(matches(isDisplayed()))
-    }
-```
-
-We are creating a  Mock (we are using Mockito to provide fake implementations, this is not mandatory, you could use your own fake implementations, or using other mocking frameworks). We are replacing the real call to getText() for a mock value called 'Mock Name". We launch the activity and we use Expresso to verify that the mocked test has been displayed on the screen.
+We are creating a  Mock (we are using Mockito to provide test doubles, this is not mandatory, you 
+could use your own test doubles, or using other mocking frameworks). We are replacing the real call
+ to getText() for a mock value called 'Mock Name". We launch the activity and we use Expresso to verify that the mocked test has been displayed on the screen.
 
 For this test works perfectly we need to use Kodein to some magic happens. If you continue reading the class at the end of the file you can find the Kodein provisioning dependencies.
 
