@@ -42,9 +42,9 @@ For this test works perfectly we need to use Kodein to some magic happens. If yo
     }
 ```
 
-we create a Module that allows overriding the graph, and we create provisioning for those classes. Depends on your objective you can use instance or provision method. In our case, we used the instance because we are initing Mockito in the test environment setup.
+We have created a module that allows us to override the graph and create a different provisioning for those classes. Depends on your objective you can use instance or provision methods. In our case, we use the instance because we are initing Mockito in the test setup.
 
-The final part overrides the production graph for the testing ones if you read the setup method you can find how we are doing that.
+Last but not least, we override the production graph using the testing one in our set up method as follows:
 
 ```java
    @Before
@@ -56,9 +56,9 @@ The final part overrides the production graph for the testing ones if you read t
     }
 ```
 
-First of all, we are initiating all the provisioning mocks with Mockito. After that, we use an extension method that we have in the sample Android application to obtain the application. First, we clean the graph, we like have all dependencies clean before each test, to be repeatable. At last, we save our test module to replace the regular module dependencies.
+First of all, we are instantiating all the mocks we are going to use as part of this test using Mockito. Then, we use an extension method that we have in the sample Android application to obtain the application instance. Cleaning  the graph we get a clean environment before each test. This helps us to create repeatable scenarios.
 
-We need to save the module because we don't have control over the injections. the order of modules has been injected is important. We like that first injected the application modules, after that the activity modules and in the end, the testing modules overriding the previous provisions. When we invoke the start activity, Kodein is going to create the module and injected it in the graph, and we need be ready to apply our testing replaces.
+We need to save the module because we don't have control over the injections. Take into account that the order of modules is important. First, we inject the application modules, after that the activity modules and in the end, the testing modules overriding the previous provisions if needed. When we invoke the activity under test, Kodein is going to create the module and inject it into the graph.
 
 If you check ```KodeinSampleApp.kt```
 
@@ -94,13 +94,13 @@ class KodeinSampleApp : Application(), KodeinAware {
 }
 ```
 
-We have an instance of Kodein that allows us to have to mutate the graph and compose in different modules.
+Based on the previous code we have got an instance of Kodein configured and ready to override modules in a composable way.
 
-You can check how to resetInjection, clear the graph and reinject the application dependencies, for each test, We have everything clear for each invocation.
+You can check how to resetInjection method clears the graph and restarts the injection of the application dependencies, for each test. This is the key to success if you want to create repeatable scenarios for every test case.
 
-The method addModule has been called for the Activities to inject their modules, this method checks if we have a Module that should be added to the graph after the activity module. This going to happen when we invoke the tests, remember that before each test we assign to override module our testing module with our mocks.
+The method addModule has been called for the Activities to inject their modules, this method checks if we have a Module that should be added to the graph after the activity module. This going to happen when we invoke the tests. Remember that before each test we assign some modules to override the original Kodein configuration from our testing module with our test doubles.
 
-The last step to check that we need to is in the ```MainActivity.kt```.
+Checking that the UI shows the expected message is the last step. You can find the code in ```MainActivity.kt```.
 
 ```java
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -112,6 +112,4 @@ The last step to check that we need to is in the ```MainActivity.kt```.
     }
 ```
 
-We are accessing the Application for injecting our activity module before any execution in the activity.
-
-With those simple steps, We can override our dependencies in those tests where we don't have access to the Constructor, like activities or services.
+With these simple steps, we can override our dependencies in our tests! We don't have access to the Activities or Services constructors in order to replace production-code dependencies with test doubles.
