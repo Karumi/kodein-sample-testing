@@ -1,11 +1,10 @@
-# Kodein-sample-testing [![Build Status](https://api.travis-ci.org/Karumi/kodein-sample-testing.svg?branch=master)]
-(https://travis-ci.org/Karumi/kodein-sample-testing)
+# Kodein-sample-testing ![Build Status](https://api.travis-ci.org/Karumi/kodein-sample-testing.svg?branch=master)
 
 This repository aims to be a small example of how to use Kodein to provide different implementations for production code and testing code
 
-##Description
+## Description
 
-The idea is to use Kodein replacing part of our production code using test doubles during the instrumentation tests execution. This allow us to write instrumentation tests easily.
+**The idea is to use Kodein replacing part of our production code using test doubles during the instrumentation tests execution**. This allow us to write instrumentation tests easily.
 
 For writing those tests we are going to use a property that Kodein give us, the ability to override dependencies in a graph.
 
@@ -44,7 +43,7 @@ For this test works perfectly we need to use Kodein to some magic happens. If yo
 
 We have created a module that allows us to override the graph and create a different provisioning for those classes. Depends on your objective you can use instance or provision methods. In our case, we use the instance because we are initing Mockito in the test setup.
 
-Last but not least, we override the production graph using the testing one in our set up method as follows:
+Last but not least, **we override the production graph using the testing one in our set up method as follows**:
 
 ```java
    @Before
@@ -56,7 +55,7 @@ Last but not least, we override the production graph using the testing one in ou
     }
 ```
 
-First of all, we are instantiating all the mocks we are going to use as part of this test using Mockito. Then, we use an extension method that we have in the sample Android application to obtain the application instance. Cleaning  the graph we get a clean environment before each test. This helps us to create repeatable scenarios.
+First of all, we are instantiating all the mocks we are going to use as part of this test using Mockito. Then, **we use an extension method that we have in the sample Android application to obtain the application instance. Cleaning  the graph we get a clean environment before each test. This helps us to create repeatable scenarios.**
 
 We need to save the module because we don't have control over the injections. Take into account that the order of modules is important. First, we inject the application modules, after that the activity modules and in the end, the testing modules overriding the previous provisions if needed. When we invoke the activity under test, Kodein is going to create the module and inject it into the graph.
 
@@ -96,9 +95,9 @@ class KodeinSampleApp : Application(), KodeinAware {
 
 Based on the previous code we have got an instance of Kodein configured and ready to override modules in a composable way.
 
-You can check how to resetInjection method clears the graph and restarts the injection of the application dependencies, for each test. This is the key to success if you want to create repeatable scenarios for every test case.
+You can check how to ``resetInjection`` method clears the graph and restarts the injection of the application dependencies, for each test. This is the key to success if you want to create repeatable scenarios for every test case.
 
-The method addModule has been called for the Activities to inject their modules, this method checks if we have a Module that should be added to the graph after the activity module. This going to happen when we invoke the tests. Remember that before each test we assign some modules to override the original Kodein configuration from our testing module with our test doubles.
+The method ``addModule`` has been called for the Activities to inject their modules, this method checks if we have a Module that should be added to the graph after the activity module. This going to happen when we invoke the tests. Remember that before each test we assign some modules to override the original Kodein configuration from our testing module with our test doubles.
 
 Checking that the UI shows the expected message is the last step. You can find the code in ```MainActivity.kt```.
 
@@ -112,4 +111,21 @@ Checking that the UI shows the expected message is the last step. You can find t
     }
 ```
 
-With these simple steps, we can override our dependencies in our tests! We don't have access to the Activities or Services constructors in order to replace production-code dependencies with test doubles.
+**With these simple steps, we can override our dependencies in our tests! We don't have access to the Activities or Services constructors in order to replace production-code dependencies with test doubles.**
+
+License
+-------
+
+    Copyright 2018 Karumi
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
