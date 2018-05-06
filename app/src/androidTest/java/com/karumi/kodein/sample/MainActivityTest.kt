@@ -9,14 +9,14 @@ import android.support.test.espresso.matcher.ViewMatchers.isDisplayed
 import android.support.test.espresso.matcher.ViewMatchers.withText
 import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
-import com.github.salomonbrys.kodein.Kodein.Module
-import com.github.salomonbrys.kodein.bind
-import com.github.salomonbrys.kodein.instance
 import com.nhaarman.mockito_kotlin.whenever
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.kodein.di.Kodein.Module
+import org.kodein.di.generic.bind
+import org.kodein.di.generic.instance
 import org.mockito.Mock
 import org.mockito.MockitoAnnotations
 

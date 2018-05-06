@@ -1,18 +1,22 @@
 package com.karumi.kodein.sample
 
 import android.os.Bundle
-import com.github.salomonbrys.kodein.Kodein.Module
-import com.github.salomonbrys.kodein.android.KodeinAppCompatActivity
-import com.github.salomonbrys.kodein.bind
-import com.github.salomonbrys.kodein.instance
-import com.github.salomonbrys.kodein.provider
+import android.support.v7.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.tv_name_activity_scope
 import kotlinx.android.synthetic.main.activity_main.tv_name_app_scope
+import org.kodein.di.Kodein
+import org.kodein.di.KodeinAware
+import org.kodein.di.android.closestKodein
+import org.kodein.di.generic.bind
+import org.kodein.di.generic.instance
+import org.kodein.di.generic.provider
 
-class MainActivity : KodeinAppCompatActivity() {
+class MainActivity : AppCompatActivity(), KodeinAware {
 
-    private val applicationScopeClass: ApplicationScopeClass by injector.instance()
-    private val activityScopeClass: ActivityScopeClass by injector.instance()
+    override val kodein by closestKodein()
+
+    private val applicationScopeClass: ApplicationScopeClass by instance()
+    private val activityScopeClass: ActivityScopeClass by instance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         applicationContext.asApp().addModule(activityModules)
@@ -27,7 +31,7 @@ class MainActivity : KodeinAppCompatActivity() {
         tv_name_activity_scope.text = activityScopeClass.getText()
     }
 
-    private val activityModules = Module(allowSilentOverride = true) {
+    private val activityModules = Kodein.Module(allowSilentOverride = true) {
         bind<ActivityScopeClass>() with provider {
             ActivityScopeClass()
         }
