@@ -31,9 +31,9 @@ dependencies {
   compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
   compile 'com.android.support:appcompat-v7:26.1.0'
   compile 'com.android.support.constraint:constraint-layout:1.0.2'
-  compile 'com.github.salomonbrys.kodein:kodein:4.1.0'
-  compile 'com.github.salomonbrys.kodein:kodein-android:4.1.0'
-  compile 'com.github.salomonbrys.kodein:kodein-conf:4.1.0'
+  compile 'org.kodein.di:kodein-di-generic-jvm:5.0.0'
+  compile 'org.kodein.di:kodein-di-framework-android:5.0.0'
+  compile 'org.kodein.di:kodein-di-conf-jvm:5.0.0'
   androidTestCompile 'com.android.support.test:runner:1.0.1'
   androidTestCompile 'com.android.support.test.espresso:espresso-core:3.0.1'
   androidTestCompile 'org.mockito:mockito-android:2.13.0'

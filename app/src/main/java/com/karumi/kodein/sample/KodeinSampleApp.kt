@@ -2,11 +2,11 @@ package com.karumi.kodein.sample
 
 import android.app.Application
 import android.content.Context
-import com.github.salomonbrys.kodein.Kodein.Module
-import com.github.salomonbrys.kodein.KodeinAware
-import com.github.salomonbrys.kodein.bind
-import com.github.salomonbrys.kodein.conf.ConfigurableKodein
-import com.github.salomonbrys.kodein.singleton
+import org.kodein.di.Kodein.Module
+import org.kodein.di.KodeinAware
+import org.kodein.di.conf.ConfigurableKodein
+import org.kodein.di.generic.bind
+import org.kodein.di.generic.singleton
 
 class KodeinSampleApp : Application(), KodeinAware {
     override val kodein = ConfigurableKodein(mutable = true)
